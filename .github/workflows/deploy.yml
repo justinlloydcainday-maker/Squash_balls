@@ -25,17 +25,15 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        working-directory: ./sqsh-bills-website
         run: bun install --frozen-lockfile
 
       - name: Build website
-        working-directory: ./sqsh-bills-website
         run: bun run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./sqsh-bills-website/dist
+          path: ./dist
 
   deploy:
     needs: build
@@ -47,4 +45,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
