@@ -4,7 +4,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig(() => ({
-  base: '/Squash_balls/',
+  base: '/Squash_balls/',   // ensures GitHub Pages serves correctly
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -12,7 +12,6 @@ export default defineConfig(() => ({
     },
   },
   server: {
-    // HMR is disabled in AI Studio via DISABLE_HMR env var.
     hmr: process.env.DISABLE_HMR !== 'true',
     watch: process.env.DISABLE_HMR === 'true' ? null : {},
   },
