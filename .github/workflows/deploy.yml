@@ -24,6 +24,10 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
+      # Debug step to confirm folder structure
+      - name: List repo files
+        run: ls -R
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
