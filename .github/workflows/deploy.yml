@@ -1,49 +1,50 @@
 name: Vite site deployment
 
 on:
-push:
-branches:
-- main
+  push:
+    branches:
+      - main
 
 permissions:
-contents: read
-pages: write
-id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-group: pages
-cancel-in-progress: true
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-build:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout
-uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Setup Bun
-    uses: oven-sh/setup-bun@v2
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
-  - name: Install dependencies
-    working-directory: "sqsh bills website"
-    run: bun install --frozen-lockfile
+      - name: Install dependencies
+        working-directory: ./sqsh-bills-website
+        run: bun install --frozen-lockfile
 
-  - name: Build website
-    working-directory: "sqsh bills website"
-    run: bun run build
+      - name: Build website
+        working-directory: ./sqsh-bills-website
+        run: bun run build
 
-  - name: Upload artifact
-    uses: actions/upload-pages-artifact@v3
-    with:
-      path: "sqsh bills website/dist"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./sqsh-bills-website/dist
 
-deploy:
-environment:
-name: github-pages
-url: ${{ steps.deployment.outputs.page_url }}
-runs-on: ubuntu-latest
-needs: build
-steps:
-- name: Deploy to GitHub Pages
-id: deployment
-uses: actions/deploy-pages@v4
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
